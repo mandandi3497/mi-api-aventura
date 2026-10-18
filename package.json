@@ -1,0 +1,16 @@
+{
+  "name": "mi-api-aventura",
+  "version": "1.0.0",
+  "description": "API REST para gestionar saludos y usuarios",
+  "license": "ISC",
+  "author": "Amanda",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
