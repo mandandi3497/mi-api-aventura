@@ -1,4 +1,10 @@
+# Dependencias de Node.js
 node_modules/
-*.env
-.vercel
-.env*
+
+# Archivos privados con variables de entorno
+.env
+.env.*
+!.env.example
+
+# Configuración local de Vercel
+.vercel/
