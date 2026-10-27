@@ -1,0 +1,167 @@
+openapi: "3.0.3"
+info:
+  title: "Mi API de Aventura"
+  description: "API REST para gestionar saludos y consultar usuarios autenticados."
+  version: "1.0.0"
+
+servers:
+  - url: "/"
+    description: "Servidor de la API"
+
+tags:
+  - name: "Saludos"
+    description: "Endpoints de saludos y comprobación."
+  - name: "Autenticación"
+    description: "Inicio de sesión mediante JWT."
+  - name: "Usuarios"
+    description: "Consulta protegida de usuarios."
+
+paths:
+  "/api/v1/hola":
+    get:
+      tags:
+        - "Saludos"
+      summary: "Comprobar que la API funciona"
+      responses:
+        "200":
+          description: "La API responde correctamente."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: "API actualizada y mejorada"
+
+  "/api/v1/saludo":
+    get:
+      tags:
+        - "Saludos"
+      summary: "Saludar a una persona"
+      parameters:
+        - name: "nombre"
+          in: "query"
+          required: true
+          description: "Nombre de la persona a la que saludar."
+          schema:
+            type: string
+          example: "Amanda"
+      responses:
+        "200":
+          description: "Saludo generado correctamente."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: "Hola, Amanda"
+        "400":
+          description: "Falta el nombre requerido."
+
+  "/api/v1/login":
+    post:
+      tags:
+        - "Autenticación"
+      summary: "Iniciar sesión y obtener un token JWT"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - "usuario"
+                - "password"
+              properties:
+                usuario:
+                  type: string
+                  example: "admin"
+                password:
+                  type: string
+                  format: password
+                  example: "contraseña-de-ejemplo"
+      responses:
+        "200":
+          description: "Inicio de sesión correcto."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: "Inicio de sesión correcto."
+                  token:
+                    type: string
+                    description: "Token JWT para las solicitudes protegidas."
+                  tipo:
+                    type: string
+                    example: "Bearer"
+                  expiraEn:
+                    type: string
+                    example: "1 hora"
+        "400":
+          description: "Faltan las credenciales."
+        "401":
+          description: "Las credenciales son incorrectas."
+        "405":
+          description: "Método HTTP no permitido."
+        "500":
+          description: "Error de configuración de autenticación."
+
+  "/api/v1/usuarios":
+    get:
+      tags:
+        - "Usuarios"
+      summary: "Consultar usuarios"
+      description: "Devuelve los usuarios de MongoDB. Requiere un token JWT válido."
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: "Usuarios consultados correctamente."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 2
+                  usuarios:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: "671234567890abcdef123456"
+                        nombre:
+                          type: string
+                          example: "Usuario de ejemplo"
+                        email:
+                          type: string
+                          format: email
+                          example: "usuario@ejemplo.com"
+                        createdAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          type: string
+                          format: date-time
+        "401":
+          description: "Falta el token o no es válido."
+        "405":
+          description: "Método HTTP no permitido."
+        "500":
+          description: "No se pudieron consultar los usuarios."
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

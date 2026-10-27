@@ -1,0 +1,32 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/swagger-ui.css",
+      "destination": "/api/docs?asset=swagger-ui.css"
+    },
+    {
+      "source": "/api/swagger-ui-bundle.js",
+      "destination": "/api/docs?asset=swagger-ui-bundle.js"
+    },
+    {
+      "source": "/api/swagger-ui-standalone-preset.js",
+      "destination": "/api/docs?asset=swagger-ui-standalone-preset.js"
+    },
+    {
+      "source": "/api/swagger-ui-init.js",
+      "destination": "/api/docs?asset=swagger-ui-init.js"
+    },
+    {
+      "source": "/api/favicon-32x32.png",
+      "destination": "/api/docs?asset=favicon-32x32.png"
+    },
+    {
+      "source": "/api/favicon-16x16.png",
+      "destination": "/api/docs?asset=favicon-16x16.png"
+    },
+    {
+      "source": "/api/docs/:path*",
+      "destination": "/api/docs?asset=:path*"
+    }
+  ]
+}
