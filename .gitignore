@@ -4,6 +4,7 @@ node_modules/
 # Archivos privados con variables de entorno
 .env
 .env.*
+*.env
 !.env.example
 
 # Configuración local de Vercel
